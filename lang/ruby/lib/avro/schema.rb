@@ -100,13 +100,13 @@ module Avro
       when :string, :bytes
         datum.is_a? String
       when :int
-        (datum.is_a?(Fixnum) || datum.is_a?(Bignum)) &&
+        (datum.is_a?(Integer)) &&
             (INT_MIN_VALUE <= datum) && (datum <= INT_MAX_VALUE)
       when :long
-        (datum.is_a?(Fixnum) || datum.is_a?(Bignum)) &&
+        (datum.is_a?(Integer)) &&
             (LONG_MIN_VALUE <= datum) && (datum <= LONG_MAX_VALUE)
       when :float, :double
-        datum.is_a?(Float) || datum.is_a?(Fixnum) || datum.is_a?(Bignum)
+        datum.is_a?(Float) || datum.is_a?(Integer)
       when :fixed
         datum.is_a?(String) && datum.bytesize == expected_schema.size
       when :enum
@@ -347,7 +347,7 @@ module Avro
       attr_reader :size
       def initialize(name, space, size, names=nil)
         # Ensure valid cto args
-        unless size.is_a?(Fixnum) || size.is_a?(Bignum)
+        unless size.is_a?(Integer)
           raise AvroError, 'Fixed Schema requires a valid integer for size property.'
         end
         super(:fixed, name, space, names)
